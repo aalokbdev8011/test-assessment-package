@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./backend 
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./backend:/api
+    command: bash -c "uvicorn main:app --host=0.0.0.0 --port=8002"
+    # depends_on:
+    #   - db
+
+  web:
+    build: ./frontend
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./frontend:/frontend
+    command: "npm start"
+
+  # db:
+  #   image: postgres
+  #   volumes:
+  #     - ./data/db:/home/postgresql/data:rw
+  #   environment:
+  #     # - POSTGRES_HOST=db
+  #     - POSTGRES_DB=testdb
+  #     - POSTGRES_USER=testuser
+  #     - POSTGRES_PASSWORD=password
+  #   expose:
+  #     - 5432
+    # container_name: postgres_db
